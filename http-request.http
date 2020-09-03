@@ -1,0 +1,42 @@
+POST localhost:3000/books
+Content-Type: application/json
+
+[
+  {
+    "title": "Golang New 1",
+    "author": "Tom Smith",
+    "year": 2014
+  },
+  {
+    "title": "Golang New 2",
+    "author": "Tom Smith",
+    "year": 2016
+  }
+]
+
+### Get all books
+GET localhost:3000/books
+Content-Type: application/json
+
+### Update books
+PUT localhost:3000/books
+Content-Type: application/json
+
+[
+  {
+    "id": "b088f76e-2450-45e5-b898-7b3f08034ad9",
+    "title": "Golang New Name",
+    "author": "Ron Wesley",
+    "year": 2019
+  },
+  {
+    "id": "c5dda860-1436-4559-bc02-e0be37e0be90",
+    "title": "Golang 2 New",
+    "author": "John M Doe",
+    "year": 2005
+  }
+]
+
+### Delete a book
+DELETE localhost:3000/books/16596c5f-0889-4fd4-842e-94839ff3504b
+Content-Type: application/json
