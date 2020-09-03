@@ -1,12 +1,16 @@
 package main
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/google/uuid"
 	"github.com/gorilla/mux"
+	"github.com/lib/pq"
+	"github.com/subosito/gotenv"
 	"log"
 	"net/http"
+	"os"
 )
 
 // Model
@@ -18,14 +22,29 @@ type Book struct {
 }
 
 var books []Book
+var db *sql.DB
+
+func init() {
+	err := gotenv.Load()
+	logFatal(err)
+}
+
+func logFatal(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
 func main() {
+	pgURL, err := pq.ParseURL(os.Getenv("ELEPHANT_SQL_URL"))
+	logFatal(err)
 
-	books = append(books,
-		Book{ID: uuid.New(), Title: "Golang 1", Author: "John Doe", Year: 2000},
-		Book{ID: uuid.New(), Title: "Golang 2", Author: "John Doe", Year: 2010},
-		Book{ID: uuid.New(), Title: "Golang 3", Author: "John Doe", Year: 2020},
-	)
+	db, err = sql.Open("postgres", pgURL)
+	logFatal(err)
+
+	err = db.Ping()
+	logFatal(err)
+
 	r := mux.NewRouter()
 
 	r.HandleFunc("/books", getBooks).Methods("GET")
@@ -106,12 +125,24 @@ func getBook(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	_ = json.NewEncoder(w).Encode(&Book{})
+	_, _ = fmt.Fprintf(w, "No book found by the ID")
 }
 
 // Get all books
 func getBooks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
+	var book Book
+	var books []Book
+
+	rows, err := db.Query("select * from books")
+	defer rows.Close()
+	logFatal(err)
+
+	for rows.Next() {
+		err := rows.Scan(&book.ID, &book.Title, &book.Author, &book.Year)
+		logFatal(err)
+		books = append(books, book)
+	}
 	_ = json.NewEncoder(w).Encode(&books)
 }

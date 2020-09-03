@@ -40,3 +40,8 @@ Content-Type: application/json
 ### Delete a book
 DELETE localhost:3000/books/16596c5f-0889-4fd4-842e-94839ff3504b
 Content-Type: application/json
+
+
+### Get a single book
+GET localhost:3000/books/489111ab-b239-4c52-9ca1-798f765514a5
+Content-Type: application/json
