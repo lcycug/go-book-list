@@ -24,13 +24,13 @@ Content-Type: application/json
 
 [
   {
-    "id": "b088f76e-2450-45e5-b898-7b3f08034ad9",
+    "id": "5493dbd9-41e5-4ada-a232-5d5a476dad3f",
     "title": "Golang New Name",
     "author": "Ron Wesley",
     "year": 2019
   },
   {
-    "id": "c5dda860-1436-4559-bc02-e0be37e0be90",
+    "id": "1292a575-261d-429b-bebd-d58ef586c600",
     "title": "Golang 2 New",
     "author": "John M Doe",
     "year": 2005
@@ -38,10 +38,10 @@ Content-Type: application/json
 ]
 
 ### Delete a book
-DELETE localhost:3000/books/16596c5f-0889-4fd4-842e-94839ff3504b
+DELETE localhost:3000/books/9b21d170-854b-4985-af9b-363f7151b767
 Content-Type: application/json
 
 
 ### Get a single book
-GET localhost:3000/books/489111ab-b239-4c52-9ca1-798f765514a5
+GET localhost:3000/books/d8ea5bdb-eb10-42ad-b52a-bb3f6fda4d54
 Content-Type: application/json
